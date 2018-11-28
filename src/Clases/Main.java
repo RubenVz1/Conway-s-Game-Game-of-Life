@@ -6,9 +6,9 @@ public class Main
 {
     public static void main(String[] args) throws InterruptedException
     {
-        JFrame aplicacion = new JFrame("Snake");
+        JFrame aplicacion = new JFrame("El juego de la vida");
         aplicacion.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        aplicacion.setSize(586,590);
+        aplicacion.setSize(586,610);
         aplicacion.setResizable(false);
         aplicacion.setLocationRelativeTo(null);
         
