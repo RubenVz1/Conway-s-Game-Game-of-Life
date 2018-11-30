@@ -136,26 +136,32 @@ public class Tablero extends javax.swing.JPanel implements MouseListener
         {
             for(int j = 0 ; j < 28 ; j++)
             {
-
-                for(int k = (i-1) ; k < (i+2) ; k++)
-                {
-                    for(int l = (j-1) ; l < (j+2) ; l++)
-                    {
-                        if(tablero_1[k][l].isVive())
-                        {
-                            contador++;
-                        }
-                    }
-                }
-                if(i > 0 && i < 27)
-                {
-                    
-                }
+                if(i > 0 && j > 0)
+                    if(tablero_1[i-1][j-1].isVive())
+                        contador++;
+                if(i > 0)
+                    if(tablero_1[i-1][j].isVive())
+                        contador++;
+                if(i > 0 && j < 27)
+                    if(tablero_1[i-1][j+1].isVive())
+                        contador++;
+                if(j > 0)
+                    if(tablero_1[i][j-1].isVive())
+                        contador++;
+                if(j < 27)
+                    if(tablero_1[i][j+1].isVive())
+                        contador++;
+                if(i < 27 && j > 0)
+                    if(tablero_1[i+1][j-1].isVive())
+                        contador++;
+                if(i < 27)
+                    if(tablero_1[i+1][j].isVive())
+                        contador++;
+                if(i < 27 && j < 27)
+                    if(tablero_1[i+1][j+1].isVive())
+                        contador++;
                 if(tablero_1[i][j].isVive())
-                {
                     setVidas(vidas+1);
-                    contador--;
-                }
                 if(contador == 3 && tablero_1[i][j].isVive() == false)
                 {
                     tablero_2[i][j].setVive(true);
@@ -227,6 +233,7 @@ public class Tablero extends javax.swing.JPanel implements MouseListener
         jLabel4 = new javax.swing.JLabel();
         jLabel_Generaciones = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setForeground(new java.awt.Color(102, 102, 102));
@@ -240,7 +247,7 @@ public class Tablero extends javax.swing.JPanel implements MouseListener
                 jButton_IniciarActionPerformed(evt);
             }
         });
-        add(jButton_Iniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 440, -1, -1));
+        add(jButton_Iniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 440, 240, -1));
 
         jButton_Parar.setText("Parar");
         jButton_Parar.addActionListener(new java.awt.event.ActionListener() {
@@ -248,13 +255,17 @@ public class Tablero extends javax.swing.JPanel implements MouseListener
                 jButton_PararActionPerformed(evt);
             }
         });
-        add(jButton_Parar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 480, -1, -1));
+        add(jButton_Parar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 480, 240, -1));
 
-        jLabel2.setText("Vida:");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 310, -1, -1));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Vida");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(583, 270, 250, -1));
 
+        jLabel_Vidas.setFont(new java.awt.Font("Tahoma", 0, 80)); // NOI18N
+        jLabel_Vidas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_Vidas.setText("0");
-        add(jLabel_Vidas, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 310, -1, -1));
+        add(jLabel_Vidas, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 300, 240, 70));
 
         jButton_Limpiar.setText("Limpiar");
         jButton_Limpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -262,16 +273,27 @@ public class Tablero extends javax.swing.JPanel implements MouseListener
                 jButton_LimpiarActionPerformed(evt);
             }
         });
-        add(jButton_Limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 520, -1, -1));
+        add(jButton_Limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 520, 240, -1));
 
-        jLabel4.setText("Generacion:");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 280, -1, -1));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Generacion");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 140, 240, -1));
 
+        jLabel_Generaciones.setFont(new java.awt.Font("Tahoma", 0, 80)); // NOI18N
+        jLabel_Generaciones.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_Generaciones.setText("0");
-        add(jLabel_Generaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 280, -1, -1));
+        add(jLabel_Generaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(584, 170, 250, 70));
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("El juego de la vida");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 230, -1, -1));
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 40, 240, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Conway Game");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 70, 240, -1));
 
         jLabel1.setBackground(new java.awt.Color(153, 153, 153));
         jLabel1.setOpaque(true);
@@ -296,6 +318,7 @@ public class Tablero extends javax.swing.JPanel implements MouseListener
     private javax.swing.JButton jButton_Parar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel_Generaciones;
