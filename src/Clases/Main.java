@@ -8,7 +8,7 @@ public class Main
     {
         JFrame aplicacion = new JFrame("El juego de la vida");
         aplicacion.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        aplicacion.setSize(586,610);
+        aplicacion.setSize(840,610);
         aplicacion.setResizable(false);
         aplicacion.setLocationRelativeTo(null);
         
@@ -19,7 +19,7 @@ public class Main
         while(true)
         {
             aplicacion.repaint();
-            Thread.sleep(500);
+            Thread.sleep(100);
         }
     }
 }

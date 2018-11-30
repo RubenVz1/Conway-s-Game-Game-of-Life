@@ -4,20 +4,49 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 public class Tablero extends javax.swing.JPanel implements MouseListener
 {
 
-    private Vida[][] tablero;
+    private Vida[][] tablero_1;
+    private Vida[][] tablero_2;
+    private int contador;
+    private boolean iniciador;
+    private int vidas;
+    private int generaciones;
+
+    public int getVidas() {
+        return vidas;
+    }
+
+    public void setVidas(int vidas) {
+        this.vidas = vidas;
+        jLabel_Vidas.setText(""+vidas);
+    }
+
+    public int getGeneraciones() {
+        return generaciones;
+    }
+
+    public void setGeneraciones(int generaciones) {
+        this.generaciones = generaciones;
+        jLabel_Generaciones.setText(""+this.generaciones);
+    }
     
     public Tablero()
     {
         initComponents();
-        tablero = new Vida[28][28];
+        tablero_1 = new Vida[28][28];
+        tablero_2 = new Vida[28][28];
         for(int i = 0 ; i < 28 ; i++)
             for(int j = 0 ; j < 28 ; j++)
-                tablero[i][j] = new Vida();
+            {
+                tablero_1[i][j] = new Vida();
+                tablero_2[i][j] = new Vida();
+            }
         addMouseListener(this);
         setFocusable(true);
     }
@@ -39,9 +68,9 @@ public class Tablero extends javax.swing.JPanel implements MouseListener
         {
             for(int j = 0 ; j < 28 ; j++)
             {
-                if(tablero[i][j].isVive())
+                if(tablero_1[i][j].isVive())
                 {
-                     g.setColor(Color.RED);
+                     g.setColor(Color.BLUE);
                 }
                 else
                     g.setColor(Color.WHITE);
@@ -57,6 +86,10 @@ public class Tablero extends javax.swing.JPanel implements MouseListener
     
     public void setVida(int coordenada_x, int coordenada_y)
     {
+        if(coordenada_x < 10 && coordenada_x > 571  && coordenada_y < 10 && coordenada_y > 571)
+        {
+            return;
+        }
         int limite_superior = 11; 
         int limite_inferior = 28;
         int fila = 0;
@@ -74,21 +107,91 @@ public class Tablero extends javax.swing.JPanel implements MouseListener
             limite_superior += 20;
             limite_inferior += 20;
         }
-        System.out.println("Fila: "+fila+" Columna: "+columna);
-        if(tablero[fila][columna].isVive())
+        if(tablero_1[fila][columna].isVive())
         {
-            tablero[fila][columna].setVive(false);
+            tablero_1[fila][columna].setVive(false);
+            setVidas(vidas-1);
+            
         }
         else
         {
-            tablero[fila][columna].setVive(true);
+            tablero_1[fila][columna].setVive(true);
+            setVidas(vidas+1);
         }
+    }
+    
+    public void limpiarTablero()
+    {
+        for(int i = 0 ; i < 28 ; i++)
+            for(int j = 0 ; j < 28 ; j++)
+                tablero_1[i][j].setVive(false);
+        setGeneraciones(0);
+        setVidas(0);
+    }
+    
+    public void actualizarTablero()
+    {
+        setVidas(0);
+        for(int i = 0 ; i < 28 ; i++)
+        {
+            for(int j = 0 ; j < 28 ; j++)
+            {
+
+                for(int k = (i-1) ; k < (i+2) ; k++)
+                {
+                    for(int l = (j-1) ; l < (j+2) ; l++)
+                    {
+                        if(tablero_1[k][l].isVive())
+                        {
+                            contador++;
+                        }
+                    }
+                }
+                if(i > 0 && i < 27)
+                {
+                    
+                }
+                if(tablero_1[i][j].isVive())
+                {
+                    setVidas(vidas+1);
+                    contador--;
+                }
+                if(contador == 3 && tablero_1[i][j].isVive() == false)
+                {
+                    tablero_2[i][j].setVive(true);
+                    contador = 0;
+                    continue;
+                }
+                if(contador > 1 && tablero_1[i][j].isVive() == true && contador < 4)
+                {
+                    tablero_2[i][j].setVive(true);
+                }
+                else
+                {
+                    tablero_2[i][j].setVive(false);
+                }
+                contador = 0;
+            }
+        }
+        Vida[][] tablero_aux = tablero_1;
+        tablero_1 = tablero_2;
+        tablero_2 = tablero_aux;
+        setGeneraciones(generaciones+1);
     }
     
     public void paintComponent( Graphics g )
     {
         dibujarContorno(g);
         dibujarTablero(g);
+        if(iniciador)
+        {
+            actualizarTablero();
+        }
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Tablero.class.getName()).log(Level.SEVERE, null, ex);
+        }
     } 
     
     @Override
@@ -97,7 +200,6 @@ public class Tablero extends javax.swing.JPanel implements MouseListener
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println("Se presiono en: X:"+e.getX()+" Y:"+e.getY());
         setVida(e.getX(),e.getY());
     }
 
@@ -117,22 +219,87 @@ public class Tablero extends javax.swing.JPanel implements MouseListener
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton_Iniciar = new javax.swing.JButton();
+        jButton_Parar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel_Vidas = new javax.swing.JLabel();
+        jButton_Limpiar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel_Generaciones = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+
         setForeground(new java.awt.Color(102, 102, 102));
         setMinimumSize(new java.awt.Dimension(800, 590));
         setPreferredSize(new java.awt.Dimension(800, 590));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 590, Short.MAX_VALUE)
-        );
+        jButton_Iniciar.setText("Iniciar");
+        jButton_Iniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_IniciarActionPerformed(evt);
+            }
+        });
+        add(jButton_Iniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 440, -1, -1));
+
+        jButton_Parar.setText("Parar");
+        jButton_Parar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_PararActionPerformed(evt);
+            }
+        });
+        add(jButton_Parar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 480, -1, -1));
+
+        jLabel2.setText("Vida:");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 310, -1, -1));
+
+        jLabel_Vidas.setText("0");
+        add(jLabel_Vidas, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 310, -1, -1));
+
+        jButton_Limpiar.setText("Limpiar");
+        jButton_Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_LimpiarActionPerformed(evt);
+            }
+        });
+        add(jButton_Limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 520, -1, -1));
+
+        jLabel4.setText("Generacion:");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 280, -1, -1));
+
+        jLabel_Generaciones.setText("0");
+        add(jLabel_Generaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 280, -1, -1));
+
+        jLabel6.setText("El juego de la vida");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 230, -1, -1));
+
+        jLabel1.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel1.setOpaque(true);
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 0, 260, 610));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton_PararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_PararActionPerformed
+        iniciador = false;
+    }//GEN-LAST:event_jButton_PararActionPerformed
+
+    private void jButton_IniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_IniciarActionPerformed
+       iniciador = true;
+    }//GEN-LAST:event_jButton_IniciarActionPerformed
+
+    private void jButton_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LimpiarActionPerformed
+        limpiarTablero();
+    }//GEN-LAST:event_jButton_LimpiarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton_Iniciar;
+    private javax.swing.JButton jButton_Limpiar;
+    private javax.swing.JButton jButton_Parar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel_Generaciones;
+    private javax.swing.JLabel jLabel_Vidas;
     // End of variables declaration//GEN-END:variables
 
 }
