@@ -86,21 +86,21 @@ public class Tablero extends javax.swing.JPanel implements MouseListener
     
     public void setVida(int coordenada_x, int coordenada_y)
     {
-        if(coordenada_x < 10 && coordenada_x > 571  && coordenada_y < 10 && coordenada_y > 571)
+        if(coordenada_x < 10 || coordenada_x > 571 || coordenada_y < 10 || coordenada_y > 571)
         {
             return;
         }
         int limite_superior = 11; 
-        int limite_inferior = 28;
+        int limite_inferior = 30;
         int fila = 0;
         int columna = 0;
         for(int i = 0 ; i < 28 ; i++)
         {
-            if(coordenada_y > limite_superior && coordenada_y < limite_inferior)
+            if(coordenada_y >= limite_superior && coordenada_y <= limite_inferior)
             {
                 fila = i;
             }
-            if(coordenada_x > limite_superior && coordenada_x < limite_inferior)
+            if(coordenada_x >= limite_superior && coordenada_x <= limite_inferior)
             {
                 columna = i;
             }
